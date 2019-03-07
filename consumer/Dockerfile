@@ -1,5 +1,6 @@
 FROM python:3.7
 ADD requirements.txt /app/requirements.txt
+ADD config.py /app/config.py
 ADD ./consumer/ /app/consumer/
 WORKDIR /app/
 RUN pip install -r requirements.txt && rm /app/requirements.txt

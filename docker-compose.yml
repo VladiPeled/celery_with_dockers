@@ -1,29 +1,39 @@
-version: '2'
+version: '3.5'
 services:
 
-    rabbit:
-        hostname: rabbit
+    rabbit-mq:
         image: rabbitmq:latest
         environment:
-            - RABBITMQ_DEFAULT_USER=admin
-            - RABBITMQ_DEFAULT_PASS=mypass
+            - RABBITMQ_DEFAULT_USER=rabbit
+            - RABBITMQ_DEFAULT_PASS=rabbit
 
 
     consumer:
         build:
             context: .
             dockerfile: consumer/Dockerfile
-        links:
-            - rabbit
-        depends_on:
-            - rabbit
+        environment:
+            - CELERY_HOST=rabbit-mq
+            - CELERY_PORT=5672
+            - CELERY_USER=rabbit
+            - CELERY_PASSWORD=rabbit
+        volumes:
+          - ./consumer/:/app/consumer/
 
 
     producer:
         build:
             context: .
             dockerfile: producer/Dockerfile
-        links:
-            - rabbit
-        depends_on:
-            - rabbit
+        environment:
+            - CELERY_HOST=rabbit-mq
+            - CELERY_PORT=5672
+            - CELERY_USER=rabbit
+            - CELERY_PASSWORD=rabbit
+        volumes:
+            - ./producer/:/app/producer/
+
+networks:
+  default:
+    external:
+      name: skynet

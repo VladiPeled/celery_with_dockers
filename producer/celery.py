@@ -1,5 +1,9 @@
 from __future__ import absolute_import
 from celery import Celery
 
-app = Celery('test_celery',broker='amqp://admin:mypass@rabbit:5672',backend='rpc://')
+from config import CELERY_HOST, CELERY_PORT, CELERY_USER, CELERY_PASSWORD
+
+app = Celery('test_celery',
+             broker=f'amqp://{CELERY_USER}:{CELERY_PASSWORD}@{CELERY_HOST}:{CELERY_PORT}',
+             backend='rpc://')
 
