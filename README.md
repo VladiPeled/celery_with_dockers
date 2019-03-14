@@ -14,6 +14,13 @@ Once there is a message, the consumer worker runs the specific task which has th
 
 The producer doesn't know the code of the consumer.
 
+### SSL Certificate and keys
+
+In  order to generate your own keys and certificates, refer to:
+https://www.rabbitmq.com/ssl.html
+
+SSL listens on port 5671
+
 ## Building
 
 docker-compose build
